@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/Entities-Blank-nb">
   <!-- Java db -->
-  <Resource auth="Container" description="JavaDB for Entities Blank" driverClassName="org.apache.derby.jdbc.ClientDriver" maxActive="20" maxIdle="10" maxWait="-1" name="jdbc/ds-blank" password="blank" type="javax.sql.DataSource" url="jdbc:derby://localhost:1527/blank;create=true" username="blank"/>
+  <Resource auth="Container"
+   description="JavaDB for Entities Blank" 
+   driverClassName="com.mysql.jdbc.Driver" 
+   maxActive="20" maxIdle="10" maxWait="-1" name="jdbc/ds-blank" 
+   password="@marina23" 
+   type="javax.sql.DataSource" 
+   url="jdbc:mysql://localhost:3306/uece" 
+   username="root"/>
   <!-- Postgres
     <Resource auth="Container"
     driverClassName="org.postgresql.Driver"
@@ -13,4 +20,13 @@
     type="javax.sql.DataSource"
     url="jdbc:postgresql://localhost:5432/postgres"
     username="postgres"/>-->
+    
+    
+<!--             <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/bugtracker</property> -->
+<!--         <property name="hibernate.connection.password">@marina23</property> -->
+<!-- 		<property name="hibernate.connection.username">root</property> -->
+<!--         <property name="hibernate.current_session_context_class">thread</property> -->
+<!--         <property name="hibernate.hbm2ddl.auto">update</property> -->
+<!--         <property name="hibernate.show_sql">false</property> -->
+<!--         <property name="hibernate.format_sql">true</property>         -->
 </Context>
