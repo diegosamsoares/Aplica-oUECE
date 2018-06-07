@@ -11,7 +11,12 @@ import javax.persistence.Transient;
 @EntityDescriptor(hidden = true)
 public abstract class Status implements Serializable{
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4508664835860016182L;
+
+	@Id
     private Integer id;
 
     @Column(length = 40)

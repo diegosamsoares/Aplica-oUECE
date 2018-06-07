@@ -1,56 +1,70 @@
 package poo;
 
-import entities.annotations.EntityDescriptor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+
+import entities.Repository;
+import entities.annotations.EntityDescriptor;
 
 @Entity
 @DiscriminatorValue("NovaSolicitacao")
 @EntityDescriptor(hidden = true)
 public class NovaSolicitacao extends Status {
 
-    public NovaSolicitacao() {
-        this.setId(1);
-        this.setDescricao("NovaSolicitacao");
-    }
-
-    NovaSolicitacao(Solicitacao solicitacao) {
-        this();
-        this.solicitacao = solicitacao;
-    }
-   
-    @Override
-    public void solicitar() {
-        
-        solicitacao.setStatus(new AguardandoChefia());
-        
-        
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4202689391235071688L;
 	
-    }
+	
 
-    @Override
-    public void aprovar() {
-	throw new IllegalStateException("Solicitação não pode ser aprovada.");
-    }
+	public NovaSolicitacao() {
+		this.setId(1);
+		this.setDescricao("NovaSolicitacao");
+	}
 
-    @Override
-    public void recusar() {
-	throw new IllegalStateException("Solicitação não pode ser recusada.");
-    }
+	NovaSolicitacao(Solicitacao solicitacao) {
+		this();
+		this.solicitacao = solicitacao;
+	}
 
-    @Override
-    public void retornar(String motivo) {
-	throw new IllegalStateException("Solicitação não pode ser retornada.");
-    }
+	@Override
+	public void solicitar() {
+		if (solicitacao.getTipoFalta().getDescricao().equalsIgnoreCase("Atestado Medico")|| solicitacao.getTipoFalta().getDescricao().equalsIgnoreCase("Problema No Ponto Eletronico")) {
+            solicitacao.setStatus(new AguardandoRH());
+            Repository.getInstance().add(this);
+            Repository.getInstance().persistAll();
+        }else {
+        	solicitacao.setStatus(new AguardandoChefia());
+        }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
+	@Override
+	public void aprovar() {
+		throw new IllegalStateException("Solicitação não pode ser aprovada.");
+	}
+
+	@Override
+	public void recusar() {
+		throw new IllegalStateException("Solicitação não pode ser recusada.");
+	}
+
+	@Override
+	public void retornar(String motivo) {
+		throw new IllegalStateException("Solicitação não pode ser retornada.");
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+	
+
 
 }

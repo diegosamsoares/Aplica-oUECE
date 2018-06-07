@@ -9,7 +9,12 @@ import javax.persistence.Entity;
 @EntityDescriptor(hidden = true)
 public class AguardandoRH extends Status {
 
-    public AguardandoRH() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2174279197790161198L;
+
+	public AguardandoRH() {
         this.setId(3);
         this.setDescricao("AguardandoRH");
     }

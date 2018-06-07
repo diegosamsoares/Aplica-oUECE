@@ -9,7 +9,12 @@ import javax.persistence.Entity;
 @EntityDescriptor(hidden = true)
 public class Recusada extends Status {
     
-    public Recusada() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2850435053336195352L;
+
+	public Recusada() {
         this.setId(5);
         this.setDescricao("Recusada");
     }

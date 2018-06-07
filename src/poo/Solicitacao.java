@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -36,7 +38,7 @@ import entities.descriptor.PropertyType;
 })
 
 @Views({ @View(name = "SolicitarAbono", title = "Solicitar Abono", namedQuery = "Select new poo.Solicitacao()", members = "[#funcionario;#inicio; "
-		+ " #termino;#motivo;#observacao; " + " #solicitar()]"),
+		+ " #termino;#motivo;#observacao;#tipoFalta; " + " #solicitar()]"),
 
 		@View(name = "AprovacaoDaChefia", title = "Analisar Solicitações", namedQuery = "SolicitacoesAguardandoChefia", members = "[*funcionario:2;"
 				+ " *inicio,*termino;*motivo,*observacao]," + " [aprovar();recusar()]"),
@@ -81,37 +83,42 @@ public class Solicitacao implements Serializable {
 
 	@Column(name = "VERSION", length = 20)
 	private Timestamp version;
+	
+	@NotNull(message = "Informe o Tipo da Falta")
+    @Enumerated(EnumType.STRING)
+    private TipoFalta tipoFalta;
 
 	@ActionDescriptor(refreshView = true)
-    public void aprovar() {
-        status.setSolicitacao(this).aprovar();
-        Repository.getInstance().add(this);
-        Repository.getInstance().persistAll();
-    }
+	public void aprovar() {
+		status.setSolicitacao(this).aprovar();
+		Repository.getInstance().add(this);
+		Repository.getInstance().persistAll();
+	}
 
-    @ActionDescriptor(confirm = true, refreshView = true)
-    public void recusar() {
-        status.setSolicitacao(this).recusar();
-        Repository.getInstance().add(this);
-        Repository.getInstance().persistAll();
-    }
+	@ActionDescriptor(confirm = true, refreshView = true)
+	public void recusar() {
+		status.setSolicitacao(this).recusar();
+		Repository.getInstance().add(this);
+		Repository.getInstance().persistAll();
+	}
 
-    @ActionDescriptor(confirm = true, refreshView = true)
-    public void retornar(@Editor(propertyType = PropertyType.MEMO)
-            @ParameterDescriptor(displayName = "Motivo") String motivo) {
+	@ActionDescriptor(confirm = true, refreshView = true)
+	public void retornar(
+			@Editor(propertyType = PropertyType.MEMO) @ParameterDescriptor(displayName = "Motivo") String motivo) {
 
-        //   status = new AguardandoRH();
-        status.setSolicitacao(this).retornar(motivo);
-        Repository.getInstance().add(this);
-        Repository.getInstance().persistAll();
-    }
+		// status = new AguardandoRH();
+		status.setSolicitacao(this).retornar(motivo);
+		Repository.getInstance().add(this);
+		Repository.getInstance().persistAll();
+	}
 
 	@ActionDescriptor(refreshView = true)
-	public void solicitar() {
+	public String solicitar() {
 		status = new NovaSolicitacao();
 		status.setSolicitacao(this).solicitar(); // status->solicitar()
 		Repository.getInstance().add(this);
 		Repository.getInstance().persistAll();
+		return "Solicitação adicionada com sucesso!!!";
 	}
 
 	public Long getId() {
@@ -176,6 +183,14 @@ public class Solicitacao implements Serializable {
 
 	public void setVersion(Timestamp version) {
 		this.version = version;
+	}
+
+	public TipoFalta getTipoFalta() {
+		return tipoFalta;
+	}
+
+	public void setTipoFalta(TipoFalta tipoFalta) {
+		this.tipoFalta = tipoFalta;
 	}
 
 	@Override

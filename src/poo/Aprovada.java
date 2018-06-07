@@ -10,7 +10,12 @@ import javax.persistence.Entity;
 @EntityDescriptor(hidden = true)
 public class Aprovada extends Status {
     
-    public Aprovada() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Aprovada() {
         this.setId(4);
         this.setDescricao("Aprovada");
     }
